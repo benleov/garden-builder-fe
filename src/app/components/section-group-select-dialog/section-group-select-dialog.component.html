@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>
+  Group Select for Section
+</h2>
+
+<form [formGroup]="sectionGroupForm">
+
+  <!-- groups -->
+  <mat-form-field>
+    <mat-label>Group</mat-label>
+    <mat-select
+      formControlName="groupId"
+    >
+      <mat-option
+        *ngFor="let group of data.groups" [value]="group.id"
+      >
+        {{group.name}}
+       </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      (click)="onCancelClick()">Cancel
+    </button>
+    <button
+      mat-button
+      (click)="onDeleteClick()">Delete
+    </button>
+    <button
+      mat-button
+      (click)="onSaveClick()"
+      [disabled]="!sectionGroupForm.valid">Submit
+    </button>
+  </div>
+</form>

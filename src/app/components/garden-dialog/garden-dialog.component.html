@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>
+  Garden
+</h2>
+
+<div mat-dialog-content>
+
+  <p>What is a Garden?</p>
+
+  <p>
+    Using a Layout, a Garden describes what is planted where for a given season. A single layout can have multiple
+    gardens attached to it, so you can see how a layout was used over time.
+  </p>
+
+  <form [formGroup]="gardenForm">
+
+    <mat-form-field>
+      <mat-label>Layout</mat-label>
+      <mat-select
+        formControlName="layoutId">
+        <mat-option
+          *ngFor="let layout of data.layouts"
+          [value]="layout.id"
+        >
+          {{layout.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Year</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="year"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Season</mat-label>
+      <mat-select
+        formControlName="season"
+      >
+        <mat-option value="SUMMER">
+          Summer
+        </mat-option>
+        <mat-option value="AUTUMN">
+          Autumn
+        </mat-option>
+        <mat-option value="WINTER">
+          Winter
+        </mat-option>
+        <mat-option value="SPRING">
+          Spring
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    (click)="onSaveClick()"
+    [disabled]="!gardenForm.valid">Submit
+  </button>
+
+  <button
+    mat-button
+    (click)="onCancelClick()"
+  >Cancel</button>
+</div>

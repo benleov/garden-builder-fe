@@ -1,0 +1,295 @@
+<h2 mat-dialog-title>
+  New Plant
+</h2>
+
+<div mat-dialog-content>
+
+  <form [formGroup]="plantForm">
+
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input type="text"
+             matInput
+             formControlName="name"
+      >
+      <mat-error
+        *ngIf="plantForm.hasError('required', ['name'])">
+        Plant name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Variety</mat-label>
+      <input type="text"
+             matInput
+             formControlName="variety"
+      >
+      <mat-error
+        *ngIf="plantForm.hasError('required', ['variety'])">
+        Plant variety is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Family</mat-label>
+      <mat-select
+        formControlName="family"
+      >
+        <mat-option
+          *ngFor="let family of allPlantFamilies"
+          [value]="family"
+        >
+          {{family}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Species</mat-label>
+      <input type="text"
+             matInput
+             formControlName="species"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Emoji CodePoint</mat-label>
+      <input type="text"
+             matInput
+             formControlName="emojiCodePoint"
+      >
+      <mat-error
+        *ngIf="plantForm.hasError('required', ['emojiCodePoint'])">
+        Plant Emoji CodePoint is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>thumbnailUrl</mat-label>
+      <input type="text"
+             matInput
+             formControlName="thumbnailUrl"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>fullSizeUrl</mat-label>
+      <input type="text"
+             matInput
+             formControlName="fullSizeUrl"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>perennial</mat-label>
+
+      <mat-form-field>
+        <mat-select
+          formControlName="perennial"
+        >
+          <mat-option [value]="true">true</mat-option>
+          <mat-option [value]="false">false</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Median Days Lifespan</mat-label>
+      <input type="number"
+             matInput
+             formControlName="medianDaysLifespan"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Median Days To First Harvest</mat-label>
+      <input type="number"
+             matInput
+             formControlName="medianDaysToFirstHarvest"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Median Days To Last Harvest</mat-label>
+      <input type="number"
+             matInput
+             formControlName="medianDaysToLastHarvest"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>height Range Cm</mat-label>
+      <input type="number"
+             matInput
+             formControlName="heightRangeCm"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>spacing Cm</mat-label>
+      <input type="number"
+             matInput
+             formControlName="spacingCm"
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select
+        formControlName="position"
+      >
+        <mat-option
+          *ngFor="let position of allPlantPositions"
+          [value]="position"
+        >
+          {{position}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Watering Level (1-5)</mat-label>
+      <input type="number"
+             matInput
+             formControlName="wateringLevel"
+      >
+    </mat-form-field>
+
+    <!-- ------------------------ hardiness zones ------------------------------ -->
+
+    <mat-table
+      [dataSource]="hardinessZonesDataSource"
+      formArrayName="sowingMonthHardinessZones"
+    >
+      <mat-header-row
+        *matHeaderRowDef="sowingMonthDisplayColumns"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; let i = index; columns: sowingMonthDisplayColumns;"></mat-row>
+
+      <!-- Hardiness Zone -->
+      <ng-container matColumnDef="hardinessZone">
+        <mat-header-cell *matHeaderCellDef>Hardiness Zone</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index" [formGroupName]="index">
+          <mat-form-field>
+            <mat-select
+              formControlName="hardinessZone"
+            >
+              <mat-option
+                *ngFor="let hardinessZone of allHardinessZones"
+                [value]="hardinessZone"
+              >
+                {{hardinessZone}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Month-->
+      <ng-container matColumnDef="month">
+        <mat-header-cell *matHeaderCellDef>Month</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <mat-form-field>
+            <mat-select
+              formControlName="month"
+            >
+              <mat-option
+                *ngFor="let month of allMonths"
+                [value]="month"
+              >
+                {{month}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Zone delete -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <button mat-button (click)="onDeleteHardinessZone(index)">Delete</button>
+        </mat-cell>
+      </ng-container>
+
+    </mat-table>
+    <button mat-button (click)="onAddHardinessZone()">Add Zone</button>
+
+    <!-- ------------------------ plant tasks ------------------------------ -->
+
+    <mat-table
+      [dataSource]="plantTasksDataSource"
+      formArrayName="plantTasks"
+    >
+      <mat-header-row
+        *matHeaderRowDef="plantTaskColumns"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; let i = index; columns: plantTaskColumns;"></mat-row>
+
+      <!-- Plant Task Type -->
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index" [formGroupName]="index">
+          <mat-form-field>
+            <mat-select
+              formControlName="type"
+            >
+              <mat-option
+                *ngFor="let plantTaskType of allPlantTaskTypes"
+                [value]="plantTaskType"
+              >
+                {{plantTaskType}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Start Offset -->
+      <ng-container matColumnDef="startOffset">
+        <mat-header-cell *matHeaderCellDef>Start Offset</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <mat-form-field>
+
+            <input type="text"
+                   matInput
+                   formControlName="startOffset"
+                   placeholder="PXD"
+                   matTooltip="Enter the duration in the format PXD where 'X' is the number of days"
+            >
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Plant task delete -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <button mat-button (click)="onDeletePlantTask(index)">Delete</button>
+        </mat-cell>
+      </ng-container>
+
+    </mat-table>
+    <button mat-button (click)="onAddPlantTask()">Add Plant Task</button>
+
+    <!-- form controls -->
+
+    <div mat-dialog-actions>
+      <button
+        mat-button
+        (click)="onSaveClick()"
+        [disabled]="!plantForm.valid">Submit
+      </button>
+
+      <button
+        mat-button
+        (click)="onCancelClick()"
+      >Cancel
+      </button>
+    </div>
+  </form>
+</div>

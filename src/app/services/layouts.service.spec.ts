@@ -1,0 +1,21 @@
+import { TestBed } from '@angular/core/testing';
+
+import { LayoutsService } from './layouts.service';
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+describe('LayoutsService', () => {
+  let service: LayoutsService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
+    service = TestBed.inject(LayoutsService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});

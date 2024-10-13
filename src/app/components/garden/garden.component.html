@@ -1,0 +1,110 @@
+<mat-drawer-container
+  autosize
+  xmlns="http://www.w3.org/1999/html">
+  <mat-drawer
+    #drawer
+    class="sidenav"
+    mode="side" opened>
+    <div class="controls">
+      <mat-form-field appearance="fill">
+        <mat-label>Layouts</mat-label>
+        <mat-select
+          required
+          [(value)]="selectedLayout"
+          (valueChange)="onLayoutChange()"
+        >
+          <mat-option
+            *ngFor="let layout of layouts"
+            [value]="layout"
+            [disabled]="gardenExistsForLayout(layout)"
+          >{{ layout.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Garden</mat-label>
+        <mat-select
+          required
+          [(ngModel)]="selectedGarden"
+        >
+          <mat-option
+            *ngFor="let garden of gardensOfSelectedLayout()"
+            [value]="garden"
+          >{{ garden.season }} - {{ garden.year }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item (click)="newLayout()">
+        <mat-icon>grid_on</mat-icon>
+        New Layout
+      </button>
+
+      <button mat-menu-item (click)="onNewGarden()">
+        <mat-icon>yard</mat-icon>
+        New Garden
+      </button>
+
+      <button mat-menu-item (click)="onNewSectionGroup()">
+        <mat-icon>folder_open</mat-icon>
+        New Group
+      </button>
+
+      <app-task-list></app-task-list>
+
+    </div>
+  </mat-drawer>
+  <mat-drawer-content
+  >
+    <button
+      mat-raised-button
+      class="drawer-close-button"
+      (click)="drawer.toggle()"
+    >
+      {{ (drawer.opened) ? '<<' : '>>' }}
+    </button>
+
+    <div
+      class="garden-container"
+      *ngIf="isSelectedGarden()"
+      fxLayout="column"
+      fxLayoutAlign="start center"
+    >
+
+      <div
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        class="garden-controls"
+      >
+        <button mat-button
+        (click)="onNavigateBack()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <h1>{{ getMonthString(this.currentDate) }} - {{ this.currentDate.getFullYear() }}</h1>
+        <button mat-button
+          (click)="onNavigateForwards()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+
+      </div>
+      <app-garden-bed
+        *ngFor="let bed of this.selectedLayout!.beds"
+        [bed]="bed"
+        [layout]="selectedLayout"
+        [garden]="selectedGarden!"
+        [plants]="plants"
+      ></app-garden-bed>
+    </div>
+    <div
+      *ngIf="!isSelectedGarden()"
+    >
+      No garden selected
+    </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>

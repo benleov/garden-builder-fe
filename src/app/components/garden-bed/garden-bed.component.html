@@ -1,0 +1,127 @@
+ <div
+   fxLayout="row"
+   fxLayoutAlign="center center"
+   class="content">
+  <div class="grid-wrapper">
+
+     <h3>{{ bed.name }}</h3>
+
+     <mat-grid-list
+      [cols]="columnCount"
+      rowHeight="130px">
+      <mat-grid-tile
+        *ngFor="let sectionState of displaySectionStates"
+        [colspan]="sectionState.cols"
+        [rowspan]="sectionState.rows"
+
+      >
+        <div
+          *ngIf="!sectionState.disabled"
+          class="grid-content"
+          [style.background]="sectionState.color"
+          [style.border-color]="displayGroups.get(sectionState.sectionId)?.borderColour"
+          style="border-top: solid 5px"
+        >
+          <div
+            class="plant-name">
+            {{getPlantForSection(sectionState).name}}
+          </div>
+          <div
+            *ngIf="getPlantForSection(sectionState).variety"
+            class="plant-variety">
+            {{getPlantForSection(sectionState).variety}}
+          </div>
+          <div
+            *ngIf="getLatestSnapshot(sectionState)?.plantingTimestamp"
+            class="plant-planted-date">
+            IN: {{getLatestSnapshot(sectionState)?.plantingTimestamp | date:'d MMM yy' | uppercase }}
+          </div>
+          <div
+            *ngIf="getLatestSnapshot(sectionState)?.harvestedTimestamp"
+            class="plant-planted-date">
+            OUT: {{getLatestSnapshot(sectionState)?.harvestedTimestamp | date:'d MMM yy' | uppercase }}
+          </div>
+
+          <mat-progress-bar
+            class="plant-progress"
+            *ngIf="getLatestSnapshot(sectionState)?.plantingTimestamp && getPlantForSection(sectionState).medianDaysToFirstHarvest"
+            mode="determinate"
+            [value]="percentageProgress(getLatestSnapshot(sectionState)?.plantingTimestamp, getPlantForSection(sectionState).medianDaysToFirstHarvest)">
+          </mat-progress-bar>
+
+          <div
+            class="emoji-wrapper"
+          >
+            <div
+              class="emoji"
+              [innerHTML]="getPlantForSection(sectionState).emojiCodePoint | emoji"
+            >
+            </div>
+          </div>
+
+          <div
+            class="bottom-right"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+          >
+            <div
+              *ngIf="getLatestSnapshot(sectionState)?.sectionTreatments?.length"
+              class="treatments-container"
+
+            >
+              <div
+                *ngFor="let treatment of getLatestSnapshot(sectionState)?.sectionTreatments"
+              >
+                <div
+                  *ngIf="treatment.treatmentType === 'FERTILIZER'"
+                  class="treatment"
+                >F</div>
+                <div
+                  *ngIf="treatment.treatmentType === 'SOIL_CONDITIONER'"
+                  class="treatment"
+                >C</div>
+              </div>
+            </div>
+
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="sectionMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #sectionMenu="matMenu">
+              <button
+                mat-menu-item
+                (click)="onSelectSectionState(sectionState)"
+              >
+                <mat-icon>crop_din</mat-icon>
+                <span>Edit Section</span>
+              </button>
+              <button mat-menu-item
+                      [disabled]="sectionState.disabled"
+                      (click)="onSelectSectionGroup(sectionState)"
+              >
+                <mat-icon>apps</mat-icon>
+                <span>Select Group</span>
+              </button>
+              <button mat-menu-item
+                      [disabled]="sectionState.disabled"
+                      (click)="onViewSectionHistory(sectionState)"
+              >
+                <mat-icon>timeline</mat-icon>
+                <span>View History</span>
+              </button>
+
+            </mat-menu>
+          </div>
+        </div>
+
+        <div
+          class="spacer-tile mat-grid-content grid-content"
+          *ngIf="sectionState.disabled"
+        >
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
+
