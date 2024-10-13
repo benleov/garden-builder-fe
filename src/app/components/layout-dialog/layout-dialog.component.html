@@ -1,0 +1,78 @@
+<h2 mat-dialog-title>
+  Layout
+</h2>
+
+<!--/**-->
+<!--* {-->
+<!--*     "id": "521df0d2-8818-4bbb-8281-d9c76cd62a9e",-->
+<!--*     "beds": [-->
+<!--*         {-->
+<!--*             "id": "62d57d57-0956-4166-9ae2-2360f9c57ff4",-->
+<!--*             "rows": [-->
+<!--*                 {-->
+<!--*                     "id": "b69c4c17-0ec4-4af8-97e3-893162addc74",-->
+<!--*                     "sections": [-->
+<!--*                         {-->
+<!--*                             "id": "d6a27fe6-cd68-4369-8ef2-838fa4d83b3f"-->
+<!--*                         }-->
+<!--*                     ]-->
+<!--*                 }-->
+<!--*             ]-->
+<!--*         }-->
+<!--*     ]-->
+<!--* }-->
+<!--*/-->
+
+<div mat-dialog-content>
+
+  <p>What is a Layout?</p>
+  <p>
+    A layout defines the structure of your garden. It is a list of:
+  </p>
+  <ol>
+    <li>Beds, which contain a list of</li>
+    <li>Rows, which contain a list of </li>
+    <li>Sections. Each section can be planted with one type of plant.</li>
+  </ol>
+  <p>Note that you cannot select a layout, until you have a created at least one Garden for it.</p>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input
+      required
+      matInput
+      [(ngModel)]="data.layout.name"
+    />
+  </mat-form-field>
+  <button mat-raised-button (click)="addBed()">
+    Add bed
+  </button>
+
+  <div
+    *ngFor="let bed of data.layout.beds"
+  >
+    <mat-label>Bed</mat-label>
+
+    <button mat-raised-button (click)="addRow(bed)">
+      Add row
+    </button>
+    <div
+      *ngFor="let row of bed.rows"
+    >
+      <mat-label>Row</mat-label>
+
+      <button mat-raised-button (click)="addSection(row)">
+        Add section
+      </button>
+      <div
+        *ngFor="let section of row.sections"
+      >
+        Section
+      </div>
+    </div>
+  </div>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>

@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+
+    <button [matMenuTriggerFor]="menu"
+            mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="'/'">
+        <mat-icon>home</mat-icon>
+        Home
+      </button>
+      <button mat-menu-item [routerLink]="'/gardens'">
+        <mat-icon>yard</mat-icon>
+        Gardens
+      </button>
+      <button mat-menu-item [routerLink]="'/plants'">
+        <mat-icon>park</mat-icon>
+        Plants</button>
+    </mat-menu>
+
+    <span>{{title}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
+

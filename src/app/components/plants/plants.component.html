@@ -1,0 +1,135 @@
+<h2>Plants</h2>
+
+<button mat-raised-button (click)="newPlant()">
+  New Plant
+</button>
+
+<h2>Plants list</h2>
+
+<table
+  mat-table [dataSource]="plants"
+  class="plants-table">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="variety">
+    <th mat-header-cell *matHeaderCellDef>Variety</th>
+    <td mat-cell *matCellDef="let element"> {{element.variety}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="family">
+    <th mat-header-cell *matHeaderCellDef>family</th>
+    <td mat-cell *matCellDef="let element"> {{element.family}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="species">
+    <th mat-header-cell *matHeaderCellDef>species</th>
+    <td mat-cell *matCellDef="let element"> {{element.species}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="emojiCodePoint">
+    <th mat-header-cell *matHeaderCellDef>Emoji Codepoint</th>
+    <td mat-cell *matCellDef="let element"> {{element.emojiCodePoint}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="perennial">
+    <th mat-header-cell *matHeaderCellDef>perennial</th>
+    <td mat-cell *matCellDef="let element"> {{element.perennial}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="medianDaysLifespan">
+    <th mat-header-cell *matHeaderCellDef>medianDaysLifespan</th>
+    <td mat-cell *matCellDef="let element"> {{element.medianDaysLifespan}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="medianDaysToFirstHarvest">
+    <th mat-header-cell *matHeaderCellDef>Median Days to first Harvest</th>
+    <td mat-cell *matCellDef="let element"> {{element.medianDaysToFirstHarvest}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="medianDaysToLastHarvest">
+    <th mat-header-cell *matHeaderCellDef>Median Days to last Harvest</th>
+    <td mat-cell *matCellDef="let element"> {{element.medianDaysToLastHarvest}} </td>
+  </ng-container>
+  <ng-container matColumnDef="heightRangeCm">
+    <th mat-header-cell *matHeaderCellDef>heightRangeCm</th>
+    <td mat-cell *matCellDef="let element"> {{element.heightRangeCm}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="spacingCm">
+    <th mat-header-cell *matHeaderCellDef>spacingCm</th>
+    <td mat-cell *matCellDef="let element"> {{element.spacingCm}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>position</th>
+    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="wateringLevel">
+    <th mat-header-cell *matHeaderCellDef>wateringLevel</th>
+    <td mat-cell *matCellDef="let element"> {{element.wateringLevel}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="sowingMonthHardinessZones">
+    <th mat-header-cell *matHeaderCellDef>sowingMonthHardinessZones</th>
+    <td mat-cell *matCellDef="let element">
+      <ul
+      [innerHTML]="hardinessZonesToString(element.sowingMonthHardinessZones)"
+      >
+      </ul>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="companionPlants">
+    <th mat-header-cell *matHeaderCellDef>companionPlants</th>
+    <td mat-cell *matCellDef="let element"> {{element.companionPlants}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="emoji">
+    <th mat-header-cell *matHeaderCellDef>Emoji</th>
+    <td mat-cell *matCellDef="let element">
+      <div
+        class="mat-grid-emoji"
+        [innerHTML]="element.emojiCodePoint | emoji">
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="thumbnail">
+    <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
+    <td mat-cell *matCellDef="let element">
+      <img
+        class="mat-grid-emoji"
+        [src]="element.thumbnailUrl"
+        alt="Plant thumbnail"
+      />
+     </td>
+  </ng-container>
+
+  <ng-container matColumnDef="controls">
+    <th mat-header-cell *matHeaderCellDef>Controls</th>
+    <td mat-cell *matCellDef="let element">
+      <button
+         (click)="editPlant(element)">Edit
+      </button>
+      <button
+        (click)="deletePlant(element)">Delete
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columns"></tr>
+</table>
+
+

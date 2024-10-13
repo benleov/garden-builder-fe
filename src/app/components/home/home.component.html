@@ -1,0 +1,57 @@
+
+
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="content">
+
+  <div class="introduction">
+    <h1
+    >
+      Welcome to the garden builder app!
+    </h1>
+  </div>
+</div>
+<div
+  fxLayout="row"
+  fxLayoutAlign="space-around"
+  class="content">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Plants</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      style="max-height: 400px"
+      src="https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg"
+      alt=""
+    >
+    <mat-card-content>
+      <p>A list of all plants available to be planted can be found here</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-menu-item [routerLink]="'/plants'">
+        VIEW PLANTS</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Your garden</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      style="max-height: 400px"
+      src="https://media.healthyfood.com/wp-content/uploads/2017/03/How-to-start-a-vege-garden-2-1024x662.jpg"
+      alt=""
+    >
+    <mat-card-content>
+      <p>To access your garden click the link below</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-menu-item [routerLink]="'/gardens'">
+        VIEW GARDENS
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

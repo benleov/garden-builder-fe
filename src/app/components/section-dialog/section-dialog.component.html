@@ -1,0 +1,147 @@
+<h2 mat-dialog-title>
+  Section State
+</h2>
+
+<form [formGroup]="sectionForm">
+
+  <div mat-dialog-content>
+
+    <!-- plants -->
+    <mat-form-field>
+      <mat-label>Plant</mat-label>
+      <mat-select
+        formControlName="plantId"
+      >
+        <mat-option *ngFor="let plant of data.plants" [value]="plant.id">
+          <div fxLayout="row" fxLayoutAlign="start center" class="content">
+            <div style="padding: 5px">
+              {{plant.name}}
+            </div>
+            <div
+              class="plant-list-emoji"
+              [innerHTML]="plant.emojiCodePoint | emoji">
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- planted date -->
+    <mat-form-field>
+      <mat-label>Planting date</mat-label>
+      <input
+        matInput
+        formControlName="plantingTimestamp"
+        [matDatepicker]="plantingDatePicker"
+        (dateChange)="onPlantingDateChange($event)"
+        [value]="data.snapshot.plantingTimestamp"
+      >
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="plantingDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #plantingDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- harvested date -->
+    <mat-form-field>
+      <mat-label>Harvested date</mat-label>
+      <input
+        matInput
+        formControlName="harvestedTimestamp"
+        [matDatepicker]="harvestedDatePicker"
+        (dateChange)="onHarvestedDateChange($event)"
+        [value]="data.snapshot.harvestedTimestamp"
+      >
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="harvestedDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #harvestedDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-checkbox
+      *ngIf="data.isInGroup"
+      formControlName="modifyGroup"
+    >Modify whole group</mat-checkbox>
+
+    <mat-table
+      [dataSource]="dataSource"
+      formArrayName="sectionTreatments"
+    >
+      <mat-header-row
+        *matHeaderRowDef="displayColumns"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; let i = index; columns: displayColumns;"></mat-row>
+
+      <!-- Treatment Type Column -->
+      <ng-container matColumnDef="treatmentType">
+        <mat-header-cell *matHeaderCellDef>Treatment Type</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index" [formGroupName]="index">
+          <mat-form-field>
+            <mat-select
+              formControlName="treatmentType"
+            >
+              <mat-option
+                *ngFor="let treatment of allTreatmentTypes"
+                [value]="treatment"
+              >
+                {{treatment}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Treatment Timestamp (Date)-->
+      <ng-container matColumnDef="treatmentTimestamp">
+        <mat-header-cell *matHeaderCellDef>Treatment Date</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="treatmentTimestamp"
+              [matDatepicker]="treatmentDatePicker"
+              (dateChange)="onTreatmentDateChange(row, $event)"
+              [value]="row.value.treatmentTimestamp"
+            >
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="treatmentDatePicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker
+              #treatmentDatePicker>
+            </mat-datepicker>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Treatment delete -->
+      <ng-container matColumnDef="treatmentDelete">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell
+          *matCellDef="let row; let index = index"  [formGroupName]="index">
+          <button mat-button (click)="onDeleteTreatment(index)">Delete</button>
+        </mat-cell>
+      </ng-container>
+
+    </mat-table>
+    <button mat-button (click)="onAddTreatment()">Add Treatment</button>
+
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      (click)="onCancelClick()">Cancel
+    </button>
+    <button
+      mat-button
+      (click)="onDeleteClick()">Delete
+    </button>
+    <button
+      mat-button
+      (click)="onSaveClick()"
+      [disabled]="!sectionForm.valid">Submit
+    </button>
+  </div>
+</form>
